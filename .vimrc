@@ -1,4 +1,31 @@
-call plug#begin('~/.vim/plugged')
+noremap <Leader>pi :PlugInstall <CR>
+noremap <Leader>pu :PlugUpdate  <CR>
+noremap <Leader>ps :PlugStatus  <CR>
+noremap <Leader>pc :PlugClean   <CR>
+
+" /* general map */
+noremap <Leader>R  :source $MYVIMRC<CR> :echom 'Vimrc reloaded :)'<CR>
+noremap <Leader>T  :termi:al<CR>
+
+" /* Screen splitting */
+nnoremap ,v <C-w>v
+nnoremap ,s <C-w>s
+nnoremap ,, <C-w><C-w>
+" nnoremap <C-l> <C-w>l
+" nnoremap <C-h> <C-w>h
+" nnoremap <C-j> <C-w>j
+" nnoremap <C-k> <C-w>k
+
+" /* Tab switch */
+noremap <C-n>       :tabnew<CR>
+noremap <C-w>       :x<CR>
+nnoremap <C-Left>   :tabprevious<CR>
+nnoremap <C-Right>  :tabnext<CR>
+nnoremap <C-j>      :tabprevious<CR>
+nnoremap <C-k>      :tabnext<CR>
+
+
+call plug#begin()
     Plug 'junegunn/vim-plug'
 
     " /* Function */
@@ -7,6 +34,8 @@ call plug#begin('~/.vim/plugged')
     Plug 'jiangmiao/auto-pairs'
     Plug 'Xuyuanp/nerdtree-git-plugin'
     Plug 'scrooloose/nerdtree'
+    Plug 'Xuyuanp/nerdtree-git-plugin'
+    Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 
     " /* Appearance */
     Plug 'kaicataldo/material.vim'
@@ -14,28 +43,44 @@ call plug#begin('~/.vim/plugged')
     Plug 'vim-airline/vim-airline-themes'
 call plug#end()
 
-
 " /* Appearance */
 set number
-set colorcolumn=80,120
 syntax enable
 set cursorline
+set colorcolumn=80
+set background=dark
+colorscheme material
+let g:airline_theme = 'material'
+let g:material_terminal_italics = 1
+
+if (has("nvim"))
+  let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+endif
+if (has("termguicolors"))
+  set termguicolors
+endif
+
 
 " /* code style */
-set noerrorbells
 set nowrap
-set smartindent
-set expandtab
-set autoindent
-set shiftwidth=4
-set tabstop=4
 set cindent
-set encoding=UTF-8
+set expandtab
+set tabstop=4
+set autoindent
+set smartindent
+set shiftwidth=4
+set termencoding=utf-8
+set fileencodings=utf8,ucs-bom,gbk,cp936,gb2312,gb18030
 
 " /* functions */
 set mouse=a
+set nobackup
+set history=50
 set scrolloff=5
 set belloff=all
+set noerrorbells
+set spelllang=en nospell
+set splitbelow splitright
 set backspace=indent,eol,start
 " Return to last edit position when opening files
 autocmd BufReadPost *
@@ -69,25 +114,26 @@ let g:airline_left_sep=''
 let g:airline_right_sep=''
 let g:airline_highlighting_cache = 1
 let g:airline_skip_empty_sections = 1
+let g:airline_mode_map = {
+      \ '__' : '-',
+      \ 'n'  : 'N',
+      \ 'i'  : 'I',
+      \ 'R'  : 'R',
+      \ 'c'  : 'C',
+      \ 'v'  : 'V',
+      \ 'V'  : 'V',
+      \ '' : 'V',
+      \ 's'  : 'S',
+      \ 'S'  : 'S',
+      \ '' : 'S',
+      \ 't'  : 'T',
+      \ }
 let g:airline#extensions#ale#enabled = 0
 let g:airline#extensions#branch#enabled = 0
 let g:airline#extensions#wordcount#enabled = 0
 let g:airline#extensions#whitespace#enabled = 0
 let g:airline#extensions#fugitiveline#enabled = 0
 let g:airline#extensions#hunks#enabled = 0
-" let g:airline#extensions#hunks#non_zero_only = 1
-
-set background=dark
-colorscheme material
-let g:airline_theme = 'material'
-let g:material_terminal_italics = 1
-
-if (has("nvim"))
-  let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-endif
-if (has("termguicolors"))
-  set termguicolors
-endif
 
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
 let g:UltiSnipsExpandTrigger="<c-j>"
