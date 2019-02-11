@@ -24,70 +24,93 @@ nnoremap <C-Right>  :tabnext<CR>
 nnoremap <C-j>      :tabprevious<CR>
 nnoremap <C-k>      :tabnext<CR>
 
-
 call plug#begin()
     Plug 'junegunn/vim-plug'
-
-    " /* Function */
     Plug 'Valloric/YouCompleteMe'
     Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
     Plug 'jiangmiao/auto-pairs'
     Plug 'Xuyuanp/nerdtree-git-plugin'
     Plug 'scrooloose/nerdtree'
-    Plug 'Xuyuanp/nerdtree-git-plugin'
     Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+    Plug 'junegunn/vim-easy-align'
 
-    " /* Appearance */
-    Plug 'kaicataldo/material.vim'
-    Plug 'vim-airline/vim-airline'
-    Plug 'vim-airline/vim-airline-themes'
+    " /* coding tools | version control */
+    Plug 'tpope/vim-surround'
+    Plug 'jiangmiao/auto-pairs'
+    Plug 'tpope/vim-commentary'
+    Plug 'scrooloose/nerdtree'
+    Plug 'tpope/vim-fugitive'
+
+    " /* documentation writer */
+    Plug 'xuhdev/vim-latex-live-preview', { 'for': 'tex' }
+
 call plug#end()
 
 " /* Appearance */
+set colorcolumn=100
+set ruler
+syntax on
 set number
-syntax enable
-set cursorline
-set colorcolumn=80
-set background=dark
-colorscheme material
-let g:airline_theme = 'material'
-let g:material_terminal_italics = 1
+highlight LineNr ctermfg=black
+set laststatus=2
+hi StatusLine ctermfg=black ctermbg=NONE cterm=NONE
+hi StatusLineNC ctermfg=black ctermbg=black cterm=NONE
+hi User1 ctermfg=NONE ctermbg=red
+hi User2 ctermfg=NONE ctermbg=blue
+hi Pmenu ctermfg=Gray ctermbg=black
+hi PmenuSel ctermfg=DarkBlue ctermbg=0
+hi TabLineFill ctermfg=blue ctermbg=DarkGreen
+hi TabLine ctermfg=None ctermbg=DarkBlue
+hi TabLineSel ctermfg=None ctermbg=red
 
-if (has("nvim"))
-  let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-endif
-if (has("termguicolors"))
-  set termguicolors
-endif
-
-
-" /* code style */
-set nowrap
-set cindent
-set expandtab
+set formatoptions=tcqrn1
 set tabstop=4
-set autoindent
-set smartindent
 set shiftwidth=4
-set termencoding=utf-8
-set fileencodings=utf8,ucs-bom,gbk,cp936,gb2312,gb18030
+set softtabstop=4
+set expandtab
+set noshiftround
+set smartindent
+set autoindent
 
 " /* functions */
 set mouse=a
-set nobackup
-set history=50
+set nowrap
 set scrolloff=5
-set belloff=all
-set noerrorbells
-set spelllang=en nospell
-set splitbelow splitright
 set backspace=indent,eol,start
-" Return to last edit position when opening files
+set ignorecase
+set smartcase
+set lazyredraw
+set nocompatible
+set encoding=utf-8
+set hlsearch
+set incsearch
+set ignorecase
+set smartcase
+set magic
 autocmd BufReadPost *
      \ if line("'\"") > 0 && line("'\"") <= line("$") |
      \   exe "normal! g`\"" |
-	 \ endif
+     \ endif
 
+" Display options
+set showmode
+set showcmd
+set cmdheight=1
+
+" Highlight matching pairs of brackets. Use the '%' character to jump between them.
+set matchpairs+=<:>
+
+" Set status line display
+set statusline=%=%1* 		" Switch to right-side
+set statusline+=\ \ 		" Padding
+set statusline+=%f 			" Path to the file (short)
+set statusline+=\ %2*\ 		" Padding & switch colour
+set statusline+=%l 		    " Current line
+set statusline+=\  		    " Padding
+set statusline+=of		    " of text
+set statusline+=\  		    " Padding
+set statusline+=%L 		    " Current line
+set statusline+=\  		    " Padding
 
 " /* For YCM */
 set completeopt-=preview
@@ -107,41 +130,11 @@ let g:ycm_semantic_triggers = {
  \   'c'     : [ 're!\w{2}' ]
  \ }
 
-" /* For vim-airline */
-nnoremap <Leader>A :AirlineToggle<CR>:AirlineRefresh<CR>
-let g:airline_powerline_fonts = 1
-let g:airline_left_sep=''
-let g:airline_right_sep=''
-let g:airline_highlighting_cache = 1
-let g:airline_skip_empty_sections = 1
-let g:airline_mode_map = {
-      \ '__' : '-',
-      \ 'n'  : 'N',
-      \ 'i'  : 'I',
-      \ 'R'  : 'R',
-      \ 'c'  : 'C',
-      \ 'v'  : 'V',
-      \ 'V'  : 'V',
-      \ '' : 'V',
-      \ 's'  : 'S',
-      \ 'S'  : 'S',
-      \ '' : 'S',
-      \ 't'  : 'T',
-      \ }
-let g:airline#extensions#ale#enabled = 0
-let g:airline#extensions#branch#enabled = 0
-let g:airline#extensions#wordcount#enabled = 0
-let g:airline#extensions#whitespace#enabled = 0
-let g:airline#extensions#fugitiveline#enabled = 0
-let g:airline#extensions#hunks#enabled = 0
-
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
 let g:UltiSnipsExpandTrigger="<c-j>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
-" If you want :UltiSnipsEdit to split your window.
-let g:UltiSnipsEditSplit="vertical"
 
 " /* for NERDTree */
 nnoremap <silent> <Leader>n :NERDTreeToggle<CR>
@@ -158,3 +151,11 @@ augroup nerd_behaviours
   autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
   autocmd tableave * if exists('g:loaded_nerd_tree') | execute 'NERDTreeClose' | endif
 augroup END
+
+
+" /* For LaTex */
+let g:livepreview_previewer = 'evince'
+let g:livepreview_engine = 'pdflatex'
+let g:livepreview_cursorhold_recompile = 1
+autocmd Filetype tex setl updatetime=1000
+
