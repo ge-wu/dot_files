@@ -17,120 +17,116 @@ nnoremap ,, <C-w><C-w>
 " nnoremap <C-k> <C-w>k
 
 " /* Tab switch */
-noremap <C-n>       :tabnew<CR>
 noremap <C-w>       :x<CR>
-nnoremap <C-Left>   :tabprevious<CR>
+noremap <C-n>       :tabnew<CR>
+nnoremap <C-k>      :tabnext<CR>
 nnoremap <C-Right>  :tabnext<CR>
 nnoremap <C-j>      :tabprevious<CR>
-nnoremap <C-k>      :tabnext<CR>
+nnoremap <C-Left>   :tabprevious<CR>
 
 call plug#begin()
     Plug 'junegunn/vim-plug'
+
+    " /* IDE Oriented */ 
     Plug 'Valloric/YouCompleteMe'
-    Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
-    Plug 'jiangmiao/auto-pairs'
-    Plug 'Xuyuanp/nerdtree-git-plugin'
+    Plug 'artur-shaik/vim-javacomplete2'
+
+    Plug 'w0rp/ale'
+    Plug 'SirVer/ultisnips' 
+
     Plug 'scrooloose/nerdtree'
+    Plug 'Xuyuanp/nerdtree-git-plugin'
     Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-    Plug 'junegunn/vim-easy-align'
+
+    " /* Appearance */
+    Plug 'ryanoasis/vim-devicons'
+    Plug 'kaicataldo/material.vim'
+    Plug 'vim-airline/vim-airline'
+    Plug 'vim-airline/vim-airline-themes'
 
     " /* coding tools | version control */
+    Plug 'tpope/vim-fugitive'
     Plug 'tpope/vim-surround'
     Plug 'jiangmiao/auto-pairs'
+    Plug 'jiangmiao/auto-pairs'
     Plug 'tpope/vim-commentary'
-    Plug 'scrooloose/nerdtree'
-    Plug 'tpope/vim-fugitive'
+    Plug 'junegunn/vim-easy-align'
+    Plug 'junegunn/goyo.vim'
+    Plug 'MattesGroeger/vim-bookmarks'
 
     " /* documentation writer */
+    " Plug 'lervag/vimtex'
+    Plug 'lervag/vimtex'
     Plug 'xuhdev/vim-latex-live-preview', { 'for': 'tex' }
+
+    Plug 'scrooloose/vim-slumlord'
+    Plug 'aklt/plantuml-syntax'
 
 call plug#end()
 
 " /* Appearance */
-set colorcolumn=100
-set ruler
-syntax on
-set number
-highlight LineNr ctermfg=black
+set colorcolumn=80
+syntax enable
+set background=dark
+colorscheme material
+set termguicolors
+set number relativenumber
+set cursorline
 set laststatus=2
-hi StatusLine ctermfg=black ctermbg=NONE cterm=NONE
-hi StatusLineNC ctermfg=black ctermbg=black cterm=NONE
-hi User1 ctermfg=NONE ctermbg=red
-hi User2 ctermfg=NONE ctermbg=blue
-hi Pmenu ctermfg=Gray ctermbg=black
-hi PmenuSel ctermfg=DarkBlue ctermbg=0
-hi TabLineFill ctermfg=blue ctermbg=DarkGreen
-hi TabLine ctermfg=None ctermbg=DarkBlue
-hi TabLineSel ctermfg=None ctermbg=red
 
-set formatoptions=tcqrn1
-set tabstop=4
+set expandtab
+set tabstop=2
+set autoindent
+set smartindent
+set noshiftround
 set shiftwidth=4
 set softtabstop=4
-set expandtab
-set noshiftround
-set smartindent
-set autoindent
+set formatoptions=tcqrn1
 
 " /* functions */
-set mouse=a
+set magic
 set nowrap
-set scrolloff=5
-set backspace=indent,eol,start
-set ignorecase
-set smartcase
-set lazyredraw
-set nocompatible
-set encoding=utf-8
+set mouse=a
 set hlsearch
 set incsearch
-set ignorecase
 set smartcase
-set magic
+set smartcase
+set ignorecase
+set ignorecase
+set lazyredraw
+set scrolloff=25
+set nocompatible
+set encoding=utf-8
+set backspace=indent,eol,start
 autocmd BufReadPost *
      \ if line("'\"") > 0 && line("'\"") <= line("$") |
      \   exe "normal! g`\"" |
      \ endif
 
-" Display options
-set showmode
-set showcmd
-set cmdheight=1
-
-" Highlight matching pairs of brackets. Use the '%' character to jump between them.
-set matchpairs+=<:>
-
-" Set status line display
-set statusline=%=%1* 		" Switch to right-side
-set statusline+=\ \ 		" Padding
-set statusline+=%f 			" Path to the file (short)
-set statusline+=\ %2*\ 		" Padding & switch colour
-set statusline+=%l 		    " Current line
-set statusline+=\  		    " Padding
-set statusline+=of		    " of text
-set statusline+=\  		    " Padding
-set statusline+=%L 		    " Current line
-set statusline+=\  		    " Padding
-
 " /* For YCM */
 set completeopt-=preview
+let g:ycm_auto_trigger = 1
 set completeopt+=longest,menu
-let g:ycm_add_preview_to_completeopt = 0
-let g:ycm_autoclose_preview_window_after_completion = 1
-let g:ycm_seed_identifiers_with_syntax = 1
-let g:ycm_collect_identifiers_from_tags_files = 1
-let g:ycm_collect_identifiers_from_comments_and_strings = 1
 let g:ycm_max_num_candidates = 14
+let g:ycm_add_preview_to_completeopt = 0
+let g:ycm_seed_identifiers_with_syntax = 1
 let g:ycm_max_num_identifier_candidates = 7
 let g:ycm_min_num_of_chars_for_completion = 1
+let g:ycm_collect_identifiers_from_tags_files = 1
+let g:ycm_autoclose_preview_window_after_completion = 1
+let g:ycm_collect_identifiers_from_comments_and_strings = 1
 let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
-let g:ycm_auto_trigger = 1
 let g:ycm_semantic_triggers = {
  \   'python': [ 're!(import\s+|from\s+(\w+\s+(import\s+(\w+,\s+)*)?)?)'  ],
  \   'c'     : [ 're!\w{2}' ]
  \ }
 
-" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+" /* For UltiSnips */
+" let g:UltiSnipsUsePythonVersion=3
+let g:UltiSnipsEditSplit='vertical'
+" let g:UltiSnipsSnippetsDir='./UltiSnips'
+" let g:UltiSnipsSnippetDirectories='~./UltiSnips'
+
 let g:UltiSnipsExpandTrigger="<c-j>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
@@ -138,24 +134,52 @@ let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
 " /* for NERDTree */
 nnoremap <silent> <Leader>n :NERDTreeToggle<CR>
-let g:NERDTreeIgnore = ['\.pyc$', '\~$', '__pycache__[[dir]]']
-let g:NERDTreeShowBookmarks = 1
-let g:NERDTreeNaturalSort = 1
-let g:NERDTreeShowLineNumbers = 1
+let g:NERDTreeChDirMode = 2
 let g:NERDTreeShowHidden = 1
+let g:NERDTreeNaturalSort = 1
+let g:NERDTreeShowBookmarks = 1
+let g:NERDTreeShowLineNumbers = 1 
+let g:NERDTreeIgnore = ['\.pyc$', '\~$', '__pycache__[[dir]]']
 
 augroup nerd_behaviours
   au!
   autocmd StdinReadPre * let s:std_in = 1
-  autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
-  autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
   autocmd tableave * if exists('g:loaded_nerd_tree') | execute 'NERDTreeClose' | endif
+  autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+  autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
 augroup END
 
 
-" /* For LaTex */
-let g:livepreview_previewer = 'evince'
+" /* for LaTex */
+let g:livepreview_previewer = 'okular'
 let g:livepreview_engine = 'pdflatex'
-let g:livepreview_cursorhold_recompile = 1
 autocmd Filetype tex setl updatetime=1000
+let g:UltiSnipsSnippetDirectories = ['~/.vim/UltiSnips', 'UltiSnips']
+let g:tex_flavor = "latex"
 
+" /* file headers */
+augroup add_file_headers
+  au!
+  au BufNewFile *.sh
+        \ call setline(1, '#!/usr/bin/env bash')                   |
+        \ call append(line('.'), '')                               |
+        \ normal! Go
+  au BufNewFile *.py
+        \ call setline(1, '#!/usr/bin/env python')                 |
+        \ call append(line('.'), '# -*- coding: utf-8 -*-')        |
+        \ call append(line('.')+1, '')                             |
+        \ normal! Go
+  au BufNewFile *.{cpp,cc}
+        \ call setline(1, '#include <iostream>')                   |
+        \ call append(line('.'), '')                               |
+        \ normal! Go
+  au BufNewFile *.c
+        \ call setline(1, '#include <stdio.h>')                    |
+        \ call append(line('.'), '')                               |
+        \ normal! Go
+  au BufNewFile *.h,*.hpp
+        \ call setline(1, '#ifndef _'.toupper(expand('%:r')).'_H') |
+        \ call setline(2, '#define _'.toupper(expand('%:r')).'_H') |
+        \ call setline(3, '#endif')                                |
+        \ normal! Go
+augroup END
