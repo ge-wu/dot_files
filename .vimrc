@@ -56,7 +56,7 @@ call plug#begin()
 
     " /* documentation writer */
     " Plug 'lervag/vimtex'
-    Plug 'lervag/vimtex'
+    " Plug 'lervag/vimtex'
     Plug 'xuhdev/vim-latex-live-preview', { 'for': 'tex' }
 
     Plug 'scrooloose/vim-slumlord'
@@ -122,7 +122,7 @@ let g:ycm_semantic_triggers = {
  \ }
 
 " /* For UltiSnips */
-" let g:UltiSnipsUsePythonVersion=3
+let g:UltiSnipsUsePythonVersion=3
 let g:UltiSnipsEditSplit='vertical'
 " let g:UltiSnipsSnippetsDir='./UltiSnips'
 " let g:UltiSnipsSnippetDirectories='~./UltiSnips'
@@ -130,6 +130,7 @@ let g:UltiSnipsEditSplit='vertical'
 let g:UltiSnipsExpandTrigger="<c-j>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+let g:UltiSnipsSnippetDirectories = ['~/.vim/UltiSnips', 'UltiSnips']
 
 
 " /* for NERDTree */
@@ -142,11 +143,11 @@ let g:NERDTreeShowLineNumbers = 1
 let g:NERDTreeIgnore = ['\.pyc$', '\~$', '__pycache__[[dir]]']
 
 augroup nerd_behaviours
-  au!
-  autocmd StdinReadPre * let s:std_in = 1
-  autocmd tableave * if exists('g:loaded_nerd_tree') | execute 'NERDTreeClose' | endif
-  autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-  autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
+    au!
+    autocmd StdinReadPre * let s:std_in = 1
+    autocmd tableave * if exists('g:loaded_nerd_tree') | execute 'NERDTreeClose' | endif
+    autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+    autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
 augroup END
 
 
@@ -154,32 +155,55 @@ augroup END
 let g:livepreview_previewer = 'okular'
 let g:livepreview_engine = 'pdflatex'
 autocmd Filetype tex setl updatetime=1000
-let g:UltiSnipsSnippetDirectories = ['~/.vim/UltiSnips', 'UltiSnips']
 let g:tex_flavor = "latex"
 
 " /* file headers */
 augroup add_file_headers
-  au!
-  au BufNewFile *.sh
+    au!
+    au BufNewFile *.sh
         \ call setline(1, '#!/usr/bin/env bash')                   |
         \ call append(line('.'), '')                               |
         \ normal! Go
-  au BufNewFile *.py
+    au BufNewFile *.py
         \ call setline(1, '#!/usr/bin/env python')                 |
         \ call append(line('.'), '# -*- coding: utf-8 -*-')        |
         \ call append(line('.')+1, '')                             |
         \ normal! Go
-  au BufNewFile *.{cpp,cc}
+    au BufNewFile *.{cpp,cc}
         \ call setline(1, '#include <iostream>')                   |
         \ call append(line('.'), '')                               |
         \ normal! Go
-  au BufNewFile *.c
+    au BufNewFile *.c
         \ call setline(1, '#include <stdio.h>')                    |
         \ call append(line('.'), '')                               |
         \ normal! Go
-  au BufNewFile *.h,*.hpp
+    au BufNewFile *.h,*.hpp
         \ call setline(1, '#ifndef _'.toupper(expand('%:r')).'_H') |
         \ call setline(2, '#define _'.toupper(expand('%:r')).'_H') |
         \ call setline(3, '#endif')                                |
         \ normal! Go
+    au BufNewFile *.tex call Create_message()                      |
+    au BufWritePre * ks|call Last_mode()|'s|delmark s              |
 augroup END
+
+" /* For add identify header */
+function! Create_message()
+    let separate_line = repeat('=', 70)
+    let author = 'Author: Jiaye William Wang'
+    let create_time = 'Creation Time: ' .strftime("%Y-%m-%d %T")
+    let last_modified_time = 'Last Modified: ' .strftime("%Y-%m-%d %T")
+    call setline(1, [separate_line, '', author, create_time, last_modified_time])
+    exe "%normal gcc"
+    exe "%s/ / /g"
+endfunc
+
+" /* For update identify header */ 
+function! Last_mode()
+    if line('$') > 20
+        let temp = 20
+    else 
+        let temp = line('$')
+    endif
+    silent exe "1," . temp . "g/Last Modified: /s/Last Modified: .*/Last Modified: " 
+            \ .strftime("%Y-%m-%d %T")
+endfunc
