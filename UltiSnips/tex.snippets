@@ -1,0 +1,32 @@
+global !p
+import datetime
+
+# return the current time
+def first_creation_of_file ():
+		now = datetime.datetime.now()
+		return now.strftime("%Y-%m-%d %H:%M")
+
+endglobal
+
+snippet dates "Log a 750words.com session" b
+`!p
+if not snip.c:
+		snip.rv = first_creation_of_file()
+`
+endsnippet
+
+snippet template "Latex Math Template" b
+% Creation `!v 
+		let str_0 = 'Creation Time: ' .strftime("%c")
+		str_0
+`
+
+endsnippet
+
+# Quick insert begin
+snippet begin "Insert begin" b
+\begin{$1}
+
+\end{$1}
+
+endsnippet
