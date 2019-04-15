@@ -14,3 +14,5 @@ For Arch-based distros (Manjaro, Parabola, Antergos):
 ```shell
 $ sudo pacman -S texlive-most texlive-lang
 ```
+### mathpix-snipping-tool
+Generate the LaTex code of a math equation with a screen shot
