@@ -227,3 +227,8 @@ au BufRead,BufNewFile *.md setlocal textwidth=80
 set termguicolors
 set background=dark
 colorscheme NeoSolarized
+
+set spelllang=en
+hi clear SpellBad
+hi SpellBad cterm=underline
+
