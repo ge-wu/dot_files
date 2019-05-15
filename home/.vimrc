@@ -20,6 +20,13 @@ nnoremap <C-h>      :tabprevious<CR>
 
 nnoremap <C-left>      :tabnext<CR>
 nnoremap <C-right>      :tabprevious<CR>
+
+" \* Copy & Paste */ 
+noremap <Leader>y "*y
+noremap <Leader>p "*p
+noremap <Leader>Y "+y
+noremap <Leader>P "+p
+
 " /* Regrex */
 noremap ;; :%s:::g<Left><Left><Left>
 
@@ -38,6 +45,7 @@ call plug#begin()
     Plug 'iCyMind/NeoSolarized'
     Plug 'ryanoasis/vim-devicons'
     Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+    Plug 'ap/vim-css-color'
     " Plug 'kaicataldo/material.vim'
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
@@ -228,7 +236,12 @@ set termguicolors
 set background=dark
 colorscheme NeoSolarized
 
-set spelllang=en
+syntax enable
+syntax spell toplevel
+syn sync maxlines=2000
+syn sync minlines=500
+setlocal spell spelllang=en_us
 hi clear SpellBad
 hi SpellBad cterm=underline
+
 
