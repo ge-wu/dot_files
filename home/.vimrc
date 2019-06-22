@@ -42,13 +42,14 @@ call plug#begin()
     Plug 'w0rp/ale'
 
     " /* Appearance */
-    Plug 'iCyMind/NeoSolarized'
+    " Plug 'iCyMind/NeoSolarized'
     Plug 'ryanoasis/vim-devicons'
     Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-    Plug 'ap/vim-css-color'
-    " Plug 'kaicataldo/material.vim'
+    " Plug 'ap/vim-css-color'
+    Plug 'kaicataldo/material.vim'
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
+    Plug 'joshdick/onedark.vim'
 
     " /* coding tools | version control */
     Plug 'tpope/vim-fugitive'
@@ -232,9 +233,18 @@ autocmd BufReadPost *
      \ endif
 au BufRead,BufNewFile *.md setlocal textwidth=80
 
-set termguicolors
+" set termguicolors
 set background=dark
-colorscheme NeoSolarized
+syntax on
+colorscheme onedark
+if (empty($TMUX))
+  if (has("nvim"))
+    let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+  endif
+  if (has("termguicolors"))
+    set termguicolors
+  endif
+endif
 
 syntax enable
 syntax spell toplevel
