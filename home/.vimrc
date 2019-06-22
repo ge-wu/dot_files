@@ -63,6 +63,7 @@ call plug#begin()
     Plug 'xuhdev/vim-latex-live-preview', { 'for': 'tex' }
     Plug 'junegunn/goyo.vim'
     Plug 'rhysd/vim-grammarous'
+    Plug 'JamshedVesuna/vim-markdown-preview'
 
     " /* Python */
     Plug 'vim-scripts/indentpython.vim'
@@ -233,7 +234,6 @@ autocmd BufReadPost *
      \ endif
 au BufRead,BufNewFile *.md setlocal textwidth=80
 
-" set termguicolors
 set background=dark
 syntax on
 colorscheme onedark
@@ -254,4 +254,5 @@ setlocal spell spelllang=en_us
 hi clear SpellBad
 hi SpellBad cterm=underline
 
+let vim_markdown_preview_github=1
 
