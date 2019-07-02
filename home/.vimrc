@@ -5,7 +5,7 @@ noremap <Leader>ps :PlugStatus  <CR>
 noremap <Leader>pc :PlugClean   <CR>
 
 " /* general map */
-noremap <Leader>R  :source $MYVIMRC<CR> :echom 'Vimrc reloaded :)'<CR>
+noremap <Leader>R  :source $MYVIMRC<CR> :echom 'Vimrc reloaded'<CR>
 noremap <Leader>T  :terminal<CR>
 
 " /* Screen splitting */
@@ -21,7 +21,7 @@ nnoremap <C-h>      :tabprevious<CR>
 nnoremap <C-left>      :tabnext<CR>
 nnoremap <C-right>      :tabprevious<CR>
 
-" \* Copy & Paste */ 
+" /* Copy & Paste */ 
 noremap <Leader>y "*y
 noremap <Leader>p "*p
 noremap <Leader>Y "+y
@@ -43,10 +43,10 @@ call plug#begin()
 
     " /* Appearance */
     " Plug 'iCyMind/NeoSolarized'
+    " Plug 'ap/vim-css-color'
+    " Plug 'kaicataldo/material.vim'
     Plug 'ryanoasis/vim-devicons'
     Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-    " Plug 'ap/vim-css-color'
-    Plug 'kaicataldo/material.vim'
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
     Plug 'joshdick/onedark.vim'
@@ -89,9 +89,7 @@ set splitbelow
 
 set hlsearch
 set incsearch
-
-nnoremap <space> za
-vnoremap <space> zf
+set nohls
 
 " /* For airline */
 let g:airline_section_warning=''
@@ -151,7 +149,8 @@ let g:ycm_goto_buffer_command = 'horizontal-split'
 let g:ycm_seed_identifiers_with_syntax = 1
 let g:ycm_collect_identifiers_from_tags_files = 1
 let g:ycm_semantic_triggers = {
- \   'python': [ 're!(import\s+|from\s+(\w+\s+(import\s+(\w+,\s+)*)?)?)'  ]
+ \   'python': [ 're!(import\s+|from\s+(\w+\s+(import\s+(\w+,\s+)*)?)?)'  ], 
+ \   'c, cpp': [ 're!\w{1}' ]
  \ }
 
 " /* For NERDTree */
@@ -221,6 +220,9 @@ function! Last_mode()
 endfunc
 
 " /* Remember fold
+nnoremap <space> za
+vnoremap <space> zf
+
 augroup remember_folds
   autocmd!
   autocmd BufWinLeave * mkview
@@ -234,6 +236,7 @@ autocmd BufReadPost *
      \ endif
 au BufRead,BufNewFile *.md setlocal textwidth=80
 
+" /* Color Scheme */
 set background=dark
 syntax on
 colorscheme onedark
