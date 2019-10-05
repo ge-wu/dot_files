@@ -7,6 +7,7 @@ noremap <Leader>pc :PlugClean   <CR>
 " /* general map */
 noremap <Leader>R  :source $MYVIMRC<CR> :echom 'Vimrc reloaded'<CR>
 noremap <Leader>T  :terminal<CR>
+inoremap <expr> <Tab> search('\%#[]>)}""$$]', 'n') ? '<Right>' : '<Tab>'
 
 " /* Screen splitting */
 nnoremap ,h <C-w>v
@@ -37,7 +38,7 @@ call plug#begin()
     " /* IDE Oriented */ 
     Plug 'scrooloose/nerdtree'
     Plug 'Xuyuanp/nerdtree-git-plugin'
-    Plug 'Valloric/YouCompleteMe'
+    " Plug 'Valloric/YouCompleteMe'
     Plug 'SirVer/ultisnips' 
     Plug 'w0rp/ale'
 
@@ -50,6 +51,7 @@ call plug#begin()
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
     Plug 'joshdick/onedark.vim'
+    Plug 'morhetz/gruvbox'
 
     " /* coding tools | version control */
     Plug 'tpope/vim-fugitive'
@@ -60,10 +62,11 @@ call plug#begin()
     Plug 'MattesGroeger/vim-bookmarks'
 
     " /* documentation writer */
-    Plug 'xuhdev/vim-latex-live-preview', { 'for': 'tex' }
+    " Plug 'xuhdev/vim-latex-live-preview', { 'for': 'tex' }
     Plug 'junegunn/goyo.vim'
     Plug 'rhysd/vim-grammarous'
     Plug 'JamshedVesuna/vim-markdown-preview'
+    Plug 'lervag/vimtex'
 
     " /* Python */
     Plug 'vim-scripts/indentpython.vim'
@@ -76,8 +79,9 @@ set number relativenumber
 set cursorline
 set termguicolors
 set nowrap
-set tw=79
-set fo+=t
+
+au BufRead,BufNewFile *.tex setlocal textwidth=79
+set wm=2 " Auto wrap line
 
 set mouse=a
 set scrolloff=25
@@ -125,6 +129,7 @@ let g:ale_python_mypy_options = '--incremental'
 let g:ale_python_pylint_options = '--max-line-length=80'
 let g:ale_python_autopep8_options = '--max-line-length=80'
 let g:ale_python_flake8_options = '--max-line-length=80'
+
 " /* For UltiSnips */
 let g:UltiSnipsUsePythonVersion=3
 let g:UltiSnipsEditSplit='vertical'
@@ -145,13 +150,19 @@ let g:ycm_complete_in_strings = 1
 let g:ycm_server_python_interpreter = '/usr/bin/python3'
 let g:ycm_python_binary_path = 'python3'
 let g:ycm_goto_buffer_command = 'horizontal-split'
-
+let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
 let g:ycm_seed_identifiers_with_syntax = 1
 let g:ycm_collect_identifiers_from_tags_files = 1
 let g:ycm_semantic_triggers = {
  \   'python': [ 're!(import\s+|from\s+(\w+\s+(import\s+(\w+,\s+)*)?)?)'  ], 
  \   'c, cpp': [ 're!\w{1}' ]
  \ }
+if !exists('g:ycm_semantic_triggers')
+    let g:ycm_semantic_triggers = {}
+endif
+au VimEnter * let g:ycm_semantic_triggers.tex=g:vimtex#re#youcompleteme
+
 
 " /* For NERDTree */
 nnoremap <silent> <Leader>n :NERDTreeToggle<CR>
@@ -161,12 +172,6 @@ let g:NERDTreeNaturalSort = 1
 let g:NERDTreeShowBookmarks = 1
 let g:NERDTreeShowLineNumbers = 1 
 let g:NERDTreeIgnore = ['\.pyc$', '\~$', '__pycache__[[dir]]']
-
-" /* for LaTex */
-let g:livepreview_previewer = 'okular'
-let g:livepreview_engine = 'pdflatex'
-autocmd Filetype tex setl updatetime=1000
-let g:tex_flavor = "latex"
 
 " /* File headers */
 augroup add_file_headers
@@ -237,18 +242,12 @@ autocmd BufReadPost *
 au BufRead,BufNewFile *.md setlocal textwidth=80
 
 " /* Color Scheme */
+let g:gruvbox_italic=0
 set background=dark
-syntax on
-colorscheme onedark
-if (empty($TMUX))
-  if (has("nvim"))
-    let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-  endif
-  if (has("termguicolors"))
-    set termguicolors
-  endif
-endif
+colorscheme gruvbox
+let g:airline_theme='gruvbox'
 
+" /* Grammar Checking */ 
 syntax enable
 syntax spell toplevel
 syn sync maxlines=2000
@@ -257,5 +256,11 @@ setlocal spell spelllang=en_us
 hi clear SpellBad
 hi SpellBad cterm=underline
 
-let vim_markdown_preview_github=1
+" /* For LaTex */
+let g:vimtex_view_general_viewer="okular"
+noremap <Leader>b :VimtexCompile   <CR>
+let g:vimtex_view_general_options = '--unique file:@pdf\#src:@line@tex'
+let g:vimtex_view_general_options_latexmk = '--unique'
+
+
 
