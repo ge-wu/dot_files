@@ -1,6 +1,10 @@
 # dot_file
 
-This is just a bunch of collections I need for Linux.
+This is just a bunch of files I need for my Linux. My mainly usage 
+of Linux is to write LaTex with Vim, so my goal is to build my Vim into a LaTex 
+IDE oriented, and I am very satisfied so far. 
+
+Linux Distribution: Arch Linux
 
 ## LaTex
 Download all the LaTex packages. 
