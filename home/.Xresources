@@ -1,3 +1,4 @@
+
 *background: #282828
 *foreground: #ebdbb2
 
@@ -26,26 +27,14 @@
 *color7:  #a89984
 *color15: #ebdbb2
 
-URxvt.scrollBar:false
-URxvt*font:xft:Hack-Regular:size=15
+URxvt.transparent:	true
+URxvt.shading:		50
 
-! font spacing
-URxvt*letterSpace:0
-URxvt.letterSpace:0
-URxvt*iso14755:false
 
-! general settings
-URxvt*saveline:15000
-URxvt*termName:rxvt-256color
+URxvt.font:	xft:monospace:size=11
 
-! macros for clipboard and selection
 URxvt.keysym.Shift-Control-V:eval:paste_clipboard
 URxvt.keysym.Shift-Control-C:eval:selection_to_clipboard
 
-! appearance
-URxvt*depth:24
 URxvt*scrollBar:false
 URxvt*scrollBar_right:false
-URxvt*internalBorder:24
-URxvt*externalBorder:0
-URxvt.geometry:84x22
