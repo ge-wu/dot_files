@@ -60,3 +60,7 @@ bindkey -s '^o' 'lfcd\n'
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh 2>/dev/null
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
 zstyle :compinstall filename '/home/will/.zshrc'
+
+alias zshconfig="source ~/.zshrc"
+alias vimrc="vim ~/.vimrc"
+alias la="ls -la"
