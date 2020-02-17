@@ -1,6 +1,6 @@
-# dot_file
+# dot files
 
-This repository contains my dofiles, tools and packages I need for my Linux.
+This repository contains the dofiles, tools and packages I need for my Linux.
 
 ## LaTex
 Download all the LaTex packages. 
