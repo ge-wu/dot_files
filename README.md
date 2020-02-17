@@ -1,5 +1,13 @@
 # dot_file
 
+## Overall View
+| **Program**   | **Name**  |
+|---            |---        |
+| Linux Distribution    | Arch Linux    |
+| Windows Manager       | i3-gaps       |
+| Web Browser           | Chromium      |
+| GUI File Manager      | Nautilus      |
+
 This repo. contains a bunch of files I need for my Linux. My mainly usage 
 of Linux is to write LaTex with Vim, so my goal is to build my Vim into a LaTex 
 IDE oriented, and I am very satisfied so far. 
