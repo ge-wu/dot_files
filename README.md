@@ -22,13 +22,13 @@ Generate the LaTex code of a math equation with a screen shot
 |---            |---        |
 | Linux Distribution    | Arch Linux    |
 | Windows Manager       | i3-gaps       |
-| Web Browser           | Chromium      |
+| Web Browser           | Chrome        | 
 | GUI File Manager      | Nautilus      |
 | CLI File Manager      | lf            |
 | PDF Viewer            | Okular        |
 | Wallpaper Setter      | feh           |
-| Shell                 | zsh           |
+| Shell                 | Zsh           |
 | Main Code Editor      | Vim           |
 | Other Code Editor     | VSCode        |
 | Screen-shot Tool      | deepin-screenshot        |
-| Terminal Emulator     | urxvt-unicode (with 24-colors patch)        |
+| Terminal Emulator     | urxvt-unicode [(with 24-colors patch)](https://aur.archlinux.org/packages/rxvt-unicode-truecolor/)        |
