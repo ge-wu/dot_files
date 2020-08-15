@@ -1,20 +1,16 @@
-" /* Key maps */ 
-noremap <Leader>pi :PlugInstall <CR>
-noremap <Leader>pu :PlugUpdate  <CR>
-noremap <Leader>ps :PlugStatus  <CR>
-noremap <Leader>pc :PlugClean   <CR>
-
-" /* general map */
 noremap <Leader>R  :source $MYVIMRC<CR> :echom 'Vimrc reloaded'<CR>
 noremap <Leader>T  :terminal<CR>
-inoremap <expr> <Tab> search('\%#[]>)}""$$]', 'n') ? '<Right>' : '<Tab>'
 
-" /* Screen splitting */
+" Regrex
+noremap ;; :%s:::g<Left><Left><Left>
+
+" Screen splitting
 nnoremap ,h <C-w>v
 nnoremap ,v <C-w>s
 nnoremap ,, <C-w><C-w>
 
-" /* Tab switch */
+
+" Tab switch
 noremap <C-n>       :tabnew<CR>
 nnoremap <C-l>      :tabnext<CR>
 nnoremap <C-h>      :tabprevious<CR>
@@ -22,245 +18,200 @@ nnoremap <C-h>      :tabprevious<CR>
 nnoremap <C-left>      :tabnext<CR>
 nnoremap <C-right>      :tabprevious<CR>
 
-" /* Copy & Paste */ 
-noremap <Leader>y "*y
-noremap <Leader>p "*p
-noremap <Leader>Y "+y
-noremap <Leader>P "+p
+" Quick fold
+nnoremap <space> za
+vnoremap <space> zf
 
-" /* Regrex */
-noremap ;; :%s:::g<Left><Left><Left>
+" Execution shortcuts
+noremap <Leader>b :VimtexCompile   <CR>
+map <F8> : !gcc % && ./a.out <CR>
 
-" /* Plugins */ 
-call plug#begin()
-    Plug 'junegunn/vim-plug'
-
-    " /* IDE Oriented */ 
+call plug#begin('~/.vim/plugged')
+    " /* IDE Oriented */
+    Plug 'neoclide/coc.nvim', {'branch': 'release'}
     Plug 'scrooloose/nerdtree'
-    Plug 'Xuyuanp/nerdtree-git-plugin'
-    " Plug 'Valloric/YouCompleteMe'
-    Plug 'SirVer/ultisnips' 
-    Plug 'w0rp/ale'
+    Plug 'tpope/vim-commentary'
+    Plug 'jiangmiao/auto-pairs'
+    Plug 'SirVer/ultisnips'
 
     " /* Appearance */
-    " Plug 'iCyMind/NeoSolarized'
-    " Plug 'ap/vim-css-color'
-    " Plug 'kaicataldo/material.vim'
-    Plug 'ryanoasis/vim-devicons'
-    Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-    Plug 'vim-airline/vim-airline'
-    Plug 'vim-airline/vim-airline-themes'
-    Plug 'joshdick/onedark.vim'
-    Plug 'morhetz/gruvbox'
+	Plug 'morhetz/gruvbox'
+    Plug 'kaicataldo/material.vim', {'branch': 'main'}
+    " Plug 'chriskempson/base16-vim'
 
-    " /* coding tools | version control */
-    Plug 'tpope/vim-fugitive'
-    Plug 'tpope/vim-surround'
-    Plug 'jiangmiao/auto-pairs'
-    Plug 'tpope/vim-commentary'
-    Plug 'junegunn/vim-easy-align'
-    Plug 'MattesGroeger/vim-bookmarks'
-
-    " /* documentation writer */
-    " Plug 'xuhdev/vim-latex-live-preview', { 'for': 'tex' }
-    Plug 'junegunn/goyo.vim'
-    Plug 'rhysd/vim-grammarous'
-    Plug 'JamshedVesuna/vim-markdown-preview'
+    " /* Language Tools */
     Plug 'lervag/vimtex'
-
-    " /* Python */
-    Plug 'vim-scripts/indentpython.vim'
-
 call plug#end()
 
-" /* Appearance */
-set colorcolumn=80
-set number relativenumber
-set cursorline
-set termguicolors
-set nowrap
 
-au BufRead,BufNewFile *.tex setlocal textwidth=79
-set wm=2 " Auto wrap line
+" /*For COC */
+" if hidden is not set, TextEdit might fail.
+set hidden
 
-set mouse=a
-set scrolloff=25
-set nocompatible
-set encoding=utf-8
-set backspace=indent,eol,start
-set clipboard=unnamed
-set splitbelow
+" Some servers have issues with backup files, see #649
+set nobackup
+set nowritebackup
 
-set hlsearch
-set incsearch
-set nohls
+" Better display for messages
+set cmdheight=2
 
-" /* For airline */
-let g:airline_section_warning=''
-let g:airline_skip_empty_sections = 1
-let g:airline_section_z = '%3p%% %l:%c'
+" You will have bad experience for diagnostic messages when it's default 4000.
+set updatetime=300
 
-" /* For ale */
-nmap <silent> <C-k> <Plug>(ale_previous)
-nmap <silent> <C-j> <Plug>(ale_next)
-nmap <silent> <Leader>al <Plug>(ale_lint)
-nmap <silent> <Leader>af <Plug>(ale_fix)
-nmap <silent> <Leader>at <Plug>(ale_toggle)
-cabbrev AF ALEFix
+" don't give |ins-completion-menu| messages.
+set shortmess+=c
 
-let g:ale_fixers = {
-      \  '*': ['trim_whitespace'],
-      \  'c': ['clang-format'],
-      \  'javascript': ['prettier', 'importjs'],
-      \  'sh': ['shfmt'],
-      \  'python': ['autopep8', 'isort'],
-      \  'json': ['fixjson', 'prettier'],
-      \ }
+" always show signcolumns
+set signcolumn=yes
 
-let g:ale_warn_about_trailing_whitespace = 0
-let g:ale_maximum_file_size = 1024 * 1024
-let g:ale_set_balloons_legacy_echo = 1
-let g:ale_lint_on_text_changed = 'normal'
-let g:ale_lint_on_insert_leave = 1
+" Use tab for trigger completion with characters ahead and navigate.
+" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
-" for python
-let g:ale_python_mypy_ignore_invalid_syntax = 1
-let g:ale_python_mypy_options = '--incremental'
-let g:ale_python_pylint_options = '--max-line-length=80'
-let g:ale_python_autopep8_options = '--max-line-length=80'
-let g:ale_python_flake8_options = '--max-line-length=80'
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use <c-space> to trigger completion.
+inoremap <silent><expr> <c-space> coc#refresh()
+
+" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
+" Coc only does snippet and additional edit on confirm.
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+" Or use `complete_info` if your vim support it, like:
+" inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+
+" Use `[g` and `]g` to navigate diagnostics
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" Remap keys for gotos
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Use K to show documentation in preview window
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+" Highlight symbol under cursor on CursorHold
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" Remap for rename current word
+nmap <leader>rn <Plug>(coc-rename)
+
+" Remap for format selected region
+xmap <leader>f  <Plug>(coc-format-selected)
+nmap <leader>f  <Plug>(coc-format-selected)
+
+augroup mygroup
+  autocmd!
+  " Setup formatexpr specified filetype(s).
+  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+  " Update signature help on jump placeholder
+  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+augroup end
+
+" Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
+xmap <leader>a  <Plug>(coc-codeaction-selected)
+nmap <leader>a  <Plug>(coc-codeaction-selected)
+
+" Remap for do codeAction of current line
+nmap <leader>ac  <Plug>(coc-codeaction)
+" Fix autofix problem of current line
+nmap <leader>qf  <Plug>(coc-fix-current)
+
+" Create mappings for function text object, requires document symbols feature of languageserver.
+xmap if <Plug>(coc-funcobj-i)
+xmap af <Plug>(coc-funcobj-a)
+omap if <Plug>(coc-funcobj-i)
+omap af <Plug>(coc-funcobj-a)
+
+" Use <TAB> for select selections ranges, needs server support, like: coc-tsserver, coc-python
+nmap <silent> <TAB> <Plug>(coc-range-select)
+xmap <silent> <TAB> <Plug>(coc-range-select)
+
+" Use `:Format` to format current buffer
+command! -nargs=0 Format :call CocAction('format')
+
+" Use `:Fold` to fold current buffer
+command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+
+" use `:OR` for organize import of current buffer
+command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+
+" Add status line support, for integration with other plugin, checkout `:h coc-status`
+set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+
+" Using CocList
+" Show all diagnostics
+nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
+" Manage extensions
+nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
+" Show commands
+nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
+" Find symbol of current document
+nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
+" Search workspace symbols
+nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
+" Do default action for next item.
+nnoremap <silent> <space>j  :<C-u>CocNext<CR>
+" Do default action for previous item.
+nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
+" Resume latest coc list
+nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 
 " /* For UltiSnips */
 let g:UltiSnipsUsePythonVersion=3
 let g:UltiSnipsEditSplit='vertical'
-let g:UltiSnipsExpandTrigger="<c-j>"
+let g:UltiSnipsExpandTrigger="<c-e>"
 let g:UltiSnipsJumpForwardTrigger="<c-f>"
 let g:UltiSnipsJumpBackwardTrigger="<c-b>"
 let g:UltiSnipsSnippetDirectories = ['~/.vim/UltiSnips', 'UltiSnips']
 
-" /* For YCM */
-set completeopt-=preview
-set completeopt+=longest,menu
-let g:ycm_add_preview_to_completeopt = 0
-let g:ycm_autoclose_preview_window_after_completion = 1
+" /* Functionality */
+set nu
+set expandtab ts=4 sw=4 ai "set tab
+set nowrap
+set cursorline
+set mouse=a
 
-let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
-let g:ycm_complete_in_comments = 1
-let g:ycm_complete_in_strings = 1
-let g:ycm_server_python_interpreter = '/usr/bin/python3'
-let g:ycm_python_binary_path = 'python3'
-let g:ycm_goto_buffer_command = 'horizontal-split'
-let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
-let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
-let g:ycm_seed_identifiers_with_syntax = 1
-let g:ycm_collect_identifiers_from_tags_files = 1
-let g:ycm_semantic_triggers = {
- \   'python': [ 're!(import\s+|from\s+(\w+\s+(import\s+(\w+,\s+)*)?)?)'  ], 
- \   'c, cpp': [ 're!\w{1}' ]
- \ }
-if !exists('g:ycm_semantic_triggers')
-    let g:ycm_semantic_triggers = {}
-endif
-au VimEnter * let g:ycm_semantic_triggers.tex=g:vimtex#re#youcompleteme
+" /* Helper script */ 
+source ~/.vim/script/add_headers.vim
+source ~/.vim/script/remember_last_position.vim
+source ~/.vim/script/remember_fold.vim
 
-
-" /* For NERDTree */
-nnoremap <silent> <Leader>n :NERDTreeToggle<CR>
-let g:NERDTreeChDirMode = 2
-let g:NERDTreeShowHidden = 1
-let g:NERDTreeNaturalSort = 1
-let g:NERDTreeShowBookmarks = 1
-let g:NERDTreeShowLineNumbers = 1 
-let g:NERDTreeIgnore = ['\.pyc$', '\~$', '__pycache__[[dir]]']
-
-" /* File headers */
-augroup add_file_headers
-    au!
-    au BufNewFile *.sh
-        \ call setline(1, '#!/usr/bin/env bash')                   |
-        \ call append(line('.'), '')                               |
-        \ normal! Go
-    au BufNewFile *.py
-        \ call setline(1, '#!/usr/bin/env python')                 |
-        \ call append(line('.'), '# -*- coding: utf-8 -*-')        |
-        \ call append(line('.')+1, '')                             |
-        \ normal! Go
-    au BufNewFile *.{cpp,cc}
-        \ call setline(1, '#include <iostream>')                   |
-        \ call append(line('.'), '')                               |
-        \ normal! Go
-    au BufNewFile *.c
-        \ call setline(1, '#include <stdio.h>')                    |
-        \ call append(line('.'), '')                               |
-        \ normal! Go
-    au BufNewFile *.h,*.hpp
-        \ call setline(1, '#ifndef _'.toupper(expand('%:r')).'_H') |
-        \ call setline(2, '#define _'.toupper(expand('%:r')).'_H') |
-        \ call setline(3, '#endif')                                |
-        \ normal! Go
-    au BufNewFile *.tex call Create_message()                      |
-    au BufWritePre * ks|call Last_mode()|'s|delmark s              |
-augroup END
-
-" /* Identify header */
-function! Create_message()
-    let separate_line = repeat('=', 70)
-    let author = 'Author: Jiaye William Wang'
-    let create_time = 'Creation Time: ' .strftime("%Y-%m-%d %T")
-    let last_modified_time = 'Last Modified: ' .strftime("%Y-%m-%d %T")
-    call setline(1, [separate_line, '', author, create_time, last_modified_time])
-    exe "%normal gcc"
-    exe "%s/ / /g"
-endfunc
-
-" /* For update identify header */ 
-function! Last_mode()
-    if line('$') > 20
-        let temp = 20
-    else 
-        let temp = line('$')
-    endif
-    silent exe "1," . temp . "g/Last Modified: /s/Last Modified: .*/Last Modified: " 
-            \ .strftime("%Y-%m-%d %T")
-endfunc
-
-" /* Remember fold
-nnoremap <space> za
-vnoremap <space> zf
-
-augroup remember_folds
-  autocmd!
-  autocmd BufWinLeave * mkview
-  autocmd BufWinEnter * silent! loadview
-augroup END
-
-" /* Remember last position */
-autocmd BufReadPost *
-     \ if line("'\"") > 0 && line("'\"") <= line("$") |
-     \   exe "normal! g`\"" |
-     \ endif
-au BufRead,BufNewFile *.md setlocal textwidth=80
-
-" /* Color Scheme */
-let g:gruvbox_italic=0
+" /* Appearance */
+set colorcolumn=80
 set background=dark
 colorscheme gruvbox
-let g:airline_theme='gruvbox'
+" Transparent background
+highlight Normal ctermbg=None 
+highlight SignColumn ctermbg=None
 
-" /* Grammar Checking */ 
-syntax enable
+" /* For Latex */
+let g:tex_flavor = "latex"
+let g:vimtex_view_general_viewer="okular"
+au BufRead,BufNewFile *.tex setlocal textwidth=79
+set wm=2 " Auto wrap line
+
+" /* Grammar Check */
 syntax spell toplevel
 syn sync maxlines=2000
 syn sync minlines=500
 setlocal spell spelllang=en_us
 hi clear SpellBad
 hi SpellBad cterm=underline
-
-" /* For LaTex */
-let g:vimtex_view_general_viewer="okular"
-noremap <Leader>b :VimtexCompile   <CR>
-let g:vimtex_view_general_options = '--unique file:@pdf\#src:@line@tex'
-let g:vimtex_view_general_options_latexmk = '--unique'
-
-
-
