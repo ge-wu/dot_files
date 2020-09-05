@@ -1,4 +1,3 @@
-
 *background: #282828
 *foreground: #ebdbb2
 
@@ -27,14 +26,30 @@
 *color7:  #a89984
 *color15: #ebdbb2
 
-URxvt.transparent:	true
-URxvt.shading:		50
+!! Appearance
+URxvt.depth:            32
+URxvt.background:       [95]#1d2021
 
+URxvt.font:	            xft:Hack-Regular:size=11
+URxvt.boldFont:         xft:Hack-Bold:size=11
+URxvt.italicFont:       xft:Hack-Italic:size=11
+URxvt.boldItalicFont:   xft:Hack-BoldItalic:size=11
 
-URxvt.font:	xft:monospace:size=11
+URxvt*scrollBar:        false
+URxvt*scrollBar_right:  false
+URxvt.cursorColor:      magenta
+URxvt.internalBorder:   0
+URxvt.externalBorder:   0
 
-URxvt.keysym.Shift-Control-V:eval:paste_clipboard
-URxvt.keysym.Shift-Control-C:eval:selection_to_clipboard
+!! Extensions
+URxvt.perl-ext-common: clipboard,resize-font,
 
-URxvt*scrollBar:false
-URxvt*scrollBar_right:false
+!! Clipboard
+URxvt.clipboard.autocopy: true
+URxvt.keysym.C-c: perl:clipboard:copy
+URxvt.keysym.C-v: perl:clipboard:paste
+
+!! resize-font
+URxvt.resize-font.smaller:  C-j
+URxvt.resize-font.bigger:   C-k
+
