@@ -1,7 +1,7 @@
 noremap <Leader>R  :source $MYVIMRC<CR> :echom 'Vimrc reloaded'<CR>
 noremap <Leader>T  :terminal<CR>
 
-" Regrex
+" Regrex reformat
 noremap ;; :%s:::g<Left><Left><Left>
 
 " Screen splitting
@@ -9,22 +9,17 @@ nnoremap ,h <C-w>v
 nnoremap ,v <C-w>s
 nnoremap ,, <C-w><C-w>
 
-
 " Tab switch
-noremap <C-n>       :tabnew<CR>
-nnoremap <C-l>      :tabnext<CR>
-nnoremap <C-h>      :tabprevious<CR>
-
-nnoremap <C-left>      :tabnext<CR>
-nnoremap <C-right>      :tabprevious<CR>
+noremap     <silent> <C-n>  :tabnew         <CR>
+nnoremap    <silent> <C-l>  :tabnext        <CR>
+nnoremap    <silent> <C-h>  :tabprevious    <CR>
 
 " Quick fold
 nnoremap <space> za
 vnoremap <space> zf
 
 " Execution shortcuts
-noremap <Leader>b :VimtexCompile   <CR>
-map <F8> : !gcc % && ./a.out <CR>
+noremap <Leader>l :LivedownToggle   <CR>
 
 call plug#begin('~/.vim/plugged')
     " /* IDE Oriented */
@@ -33,6 +28,9 @@ call plug#begin('~/.vim/plugged')
     Plug 'tpope/vim-commentary'
     Plug 'jiangmiao/auto-pairs'
     Plug 'SirVer/ultisnips'
+    Plug 'shime/vim-livedown'
+    Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+    Plug 'junegunn/fzf.vim'
 
     " /* Appearance */
 	Plug 'morhetz/gruvbox'
@@ -174,6 +172,16 @@ nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list
 nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 
+" /* For NERDTree */
+noremap <Leader>n :NERDTreeToggle   <CR>
+autocmd VimEnter * NERDTree
+autocmd VimEnter * wincmd p
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+let NERDTreeMapOpenInTab="<ENTER>"
+" let NERDTreeMapOpenInTabSilent="<CTRL><ENTER>"
+let NERDTreeMapOpenSplit="h"
+let NERDTreeMapOpenVSplit="v"
+
 " /* For UltiSnips */
 let g:UltiSnipsUsePythonVersion=3
 let g:UltiSnipsEditSplit='vertical'
@@ -183,11 +191,20 @@ let g:UltiSnipsJumpBackwardTrigger="<c-b>"
 let g:UltiSnipsSnippetDirectories = ['~/.vim/UltiSnips', 'UltiSnips']
 
 " /* Functionality */
-set nu
+set nocursorline
+set colorcolumn=80
+set number relativenumber
 set expandtab ts=4 sw=4 ai "set tab
 set nowrap
-set cursorline
 set mouse=a
+
+set wildmode=longest,full
+set wildmenu
+
+set hlsearch
+set incsearch
+
+set autoread
 
 " /* Helper script */ 
 source ~/.vim/script/add_headers.vim
@@ -195,7 +212,6 @@ source ~/.vim/script/remember_last_position.vim
 source ~/.vim/script/remember_fold.vim
 
 " /* Appearance */
-set colorcolumn=80
 set background=dark
 colorscheme gruvbox
 " Transparent background
@@ -205,8 +221,9 @@ highlight SignColumn ctermbg=None
 " /* For Latex */
 let g:tex_flavor = "latex"
 let g:vimtex_view_general_viewer="okular"
-au BufRead,BufNewFile *.tex setlocal textwidth=79
-set wm=2 " Auto wrap line
+" au BufRead,BufNewFile *.tex
+" set wm=2 " Auto wrap line
+noremap <Leader>b :VimtexCompile    <CR>
 
 " /* Grammar Check */
 syntax spell toplevel
