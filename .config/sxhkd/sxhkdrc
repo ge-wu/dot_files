@@ -6,6 +6,12 @@
 super + Return
 	urxvt
 
+super + shift + s
+    deepin-screenshot
+
+super + space
+    sh $HOME/.config/sxhkd/screenkey_toggle.sh
+
 # program launcher
 super + d
 	rofi -show drun -lines 5 -width 20
