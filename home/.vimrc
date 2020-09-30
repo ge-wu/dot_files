@@ -1,5 +1,6 @@
 noremap <Leader>R  :source $MYVIMRC<CR> :echom 'Vimrc reloaded'<CR>
 noremap <Leader>T  :terminal<CR>
+noremap <Leader><space> :noh <CR>
 
 " Regrex reformat
 noremap ;; :%s:::g<Left><Left><Left>
@@ -212,11 +213,14 @@ source ~/.vim/script/remember_last_position.vim
 source ~/.vim/script/remember_fold.vim
 
 " /* Appearance */
+syntax on
+filetype on
 set background=dark
 colorscheme gruvbox
 " Transparent background
 highlight Normal ctermbg=None 
 highlight SignColumn ctermbg=None
+" set termguicolors
 
 " /* For Latex */
 let g:tex_flavor = "latex"
