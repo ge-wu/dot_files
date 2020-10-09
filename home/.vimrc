@@ -25,23 +25,105 @@ noremap <Leader>l :LivedownToggle   <CR>
 call plug#begin('~/.vim/plugged')
     " /* IDE Oriented */
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
     Plug 'scrooloose/nerdtree'
+    Plug 'ryanoasis/vim-devicons'
+    Plug 'vwxyutarooo/nerdtree-devicons-syntax'
+
     Plug 'tpope/vim-commentary'
     Plug 'jiangmiao/auto-pairs'
     Plug 'SirVer/ultisnips'
     Plug 'shime/vim-livedown'
+
     Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
     Plug 'junegunn/fzf.vim'
 
     " /* Appearance */
 	Plug 'morhetz/gruvbox'
+    Plug 'sainnhe/gruvbox-material'
     Plug 'kaicataldo/material.vim', {'branch': 'main'}
-    " Plug 'chriskempson/base16-vim'
+    Plug 'sheerun/vim-polyglot'
+    Plug 'vim-airline/vim-airline'
 
     " /* Language Tools */
     Plug 'lervag/vimtex'
 call plug#end()
 
+" /* Functionality */
+set encoding=UTF-8
+set nocursorline
+set colorcolumn=80
+set number
+set numberwidth=1
+set expandtab ts=4 sw=4 ai "set tab
+set nowrap
+set mouse=a
+set wildmode=longest,full
+set wildmenu
+set hlsearch
+set incsearch
+set autoread
+
+" /* Helper script */ 
+source ~/.vim/script/add_headers.vim
+source ~/.vim/script/remember_last_position.vim
+source ~/.vim/script/remember_fold.vim
+
+" /* Appearance */
+if has('termguicolors')
+    set termguicolors
+endif
+set background=dark
+let g:gruvbox_material_background = 'hard'
+let g:gruvbox_material_enable_italic = 1
+colorscheme gruvbox-material
+
+syntax on
+filetype detect
+filetype on
+highlight clear SignColumn
+
+" /* For Latex */
+let g:tex_flavor = "latex"
+let g:vimtex_view_general_viewer="okular"
+" au BufRead,BufNewFile *.tex
+" set wm=2 " Auto wrap line
+noremap <Leader>b :VimtexCompile    <CR>
+
+" /* Grammar Check */
+syntax spell toplevel
+syn sync maxlines=2000
+syn sync minlines=500
+setlocal spell spelllang=en_us
+hi clear SpellBad
+hi SpellBad cterm=underline
+
+" /* For Airline
+let g:airline_section_a = airline#section#create(['mode'])
+let g:airline_section_y = ''
+let g:airline_section_z = 'Ln:%3l/%L:Col:%2v'
+let g:airline_section_error = ''
+let g:airline_section_warning = ''
+let g:airline_powerline_fonts = 1
+let g:airline_left_sep = ''
+let g:airline_right_sep = ''
+
+" /* For NERDTree */
+noremap <Leader>n :NERDTreeToggle   <CR>
+autocmd VimEnter * wincmd p
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+let NERDTreeMapOpenInTab="<ENTER>"
+" let NERDTreeMapOpenInTabSilent="<CTRL><ENTER>"
+let NERDTreeMapOpenSplit="h"
+let NERDTreeMapOpenVSplit="v"
+
+" /* For UltiSnips */
+let g:UltiSnipsUsePythonVersion=3
+let g:UltiSnipsEditSplit='vertical'
+let g:UltiSnipsExpandTrigger="<c-e>"
+let g:UltiSnipsJumpForwardTrigger="<c-f>"
+let g:UltiSnipsJumpBackwardTrigger="<c-b>"
+let g:UltiSnipsSnippetDirectories = ['~/.vim/UltiSnips', 'UltiSnips']
 
 " /*For COC */
 " if hidden is not set, TextEdit might fail.
@@ -173,66 +255,4 @@ nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list
 nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 
-" /* For NERDTree */
-noremap <Leader>n :NERDTreeToggle   <CR>
-autocmd VimEnter * NERDTree
-autocmd VimEnter * wincmd p
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-let NERDTreeMapOpenInTab="<ENTER>"
-" let NERDTreeMapOpenInTabSilent="<CTRL><ENTER>"
-let NERDTreeMapOpenSplit="h"
-let NERDTreeMapOpenVSplit="v"
-
-" /* For UltiSnips */
-let g:UltiSnipsUsePythonVersion=3
-let g:UltiSnipsEditSplit='vertical'
-let g:UltiSnipsExpandTrigger="<c-e>"
-let g:UltiSnipsJumpForwardTrigger="<c-f>"
-let g:UltiSnipsJumpBackwardTrigger="<c-b>"
-let g:UltiSnipsSnippetDirectories = ['~/.vim/UltiSnips', 'UltiSnips']
-
-" /* Functionality */
-set nocursorline
-set colorcolumn=80
-set number relativenumber
-set expandtab ts=4 sw=4 ai "set tab
-set nowrap
-set mouse=a
-
-set wildmode=longest,full
-set wildmenu
-
-set hlsearch
-set incsearch
-
-set autoread
-
-" /* Helper script */ 
-source ~/.vim/script/add_headers.vim
-source ~/.vim/script/remember_last_position.vim
-source ~/.vim/script/remember_fold.vim
-
-" /* Appearance */
-syntax on
-filetype on
-set background=dark
-colorscheme gruvbox
-" Transparent background
-highlight Normal ctermbg=None 
-highlight SignColumn ctermbg=None
-" set termguicolors
-
-" /* For Latex */
-let g:tex_flavor = "latex"
-let g:vimtex_view_general_viewer="okular"
-" au BufRead,BufNewFile *.tex
-" set wm=2 " Auto wrap line
-noremap <Leader>b :VimtexCompile    <CR>
-
-" /* Grammar Check */
-syntax spell toplevel
-syn sync maxlines=2000
-syn sync minlines=500
-setlocal spell spelllang=en_us
-hi clear SpellBad
-hi SpellBad cterm=underline
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
