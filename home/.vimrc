@@ -108,12 +108,29 @@ let g:airline_powerline_fonts = 1
 let g:airline_left_sep = ''
 let g:airline_right_sep = ''
 
+" /* For Airline Tab
+let g:airline#extensions#tabline#enabled=1
+let g:airline#extensions#tabline#show_close_button = 0
+let g:airline#extensions#tabline#tabs_label = ''
+let g:airline#extensions#tabline#buffers_label = ''
+let g:airline#extensions#tabline#fnamemod = ':t'
+let g:airline#extensions#tabline#show_tab_count = 0
+let g:airline#extensions#tabline#show_buffers = 0
+let g:airline#extensions#tabline#tab_min_count = 1
+let g:airline#extensions#tabline#show_splits = 0
+let g:airline#extensions#tabline#show_tab_nr = 0
+let g:airline#extensions#tabline#show_tab_type = 0
+let g:airline#extensions#tabline#keymap_ignored_filetypes = 
+            \['vimfiler', 'nerdtree']
+let g:airline#extensions#tabline#left_sep = ''
+let g:airline#extensions#tabline#right_sep = ''
+
 " /* For NERDTree */
 noremap <Leader>n :NERDTreeToggle   <CR>
 autocmd VimEnter * wincmd p
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 let NERDTreeMapOpenInTab="<ENTER>"
-" let NERDTreeMapOpenInTabSilent="<CTRL><ENTER>"
+let NERDTreeMapOpenInTabSilent="<CTRL><ENTER>"
 let NERDTreeMapOpenSplit="h"
 let NERDTreeMapOpenVSplit="v"
 
