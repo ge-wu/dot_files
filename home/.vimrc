@@ -41,9 +41,8 @@ call plug#begin('~/.vim/plugged')
     " /* Appearance */
 	Plug 'morhetz/gruvbox'
     Plug 'sainnhe/gruvbox-material'
-    Plug 'kaicataldo/material.vim', {'branch': 'main'}
-    Plug 'sheerun/vim-polyglot'
     Plug 'vim-airline/vim-airline'
+    Plug 'mhinz/vim-startify'
 
     " /* Language Tools */
     Plug 'lervag/vimtex'
@@ -51,10 +50,7 @@ call plug#end()
 
 " /* Functionality */
 set encoding=UTF-8
-set nocursorline
-set colorcolumn=80
 set number
-set numberwidth=1
 set expandtab ts=4 sw=4 ai "set tab
 set nowrap
 set mouse=a
@@ -63,13 +59,20 @@ set wildmenu
 set hlsearch
 set incsearch
 set autoread
+set noshowmode
+set noerrorbells
+set history=1000
 
 " /* Helper script */ 
 source ~/.vim/script/add_headers.vim
 source ~/.vim/script/remember_last_position.vim
-source ~/.vim/script/remember_fold.vim
 
 " /* Appearance */
+set nocursorline
+set colorcolumn=80
+set numberwidth=1
+set cursorline
+
 if has('termguicolors')
     set termguicolors
 endif
@@ -151,7 +154,7 @@ set nobackup
 set nowritebackup
 
 " Better display for messages
-set cmdheight=2
+set cmdheight=1
 
 " You will have bad experience for diagnostic messages when it's default 4000.
 set updatetime=300
@@ -273,3 +276,13 @@ nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
 nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 
 inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+" let g:startify_custom_header = [
+"             \ '                                 ________  __ __        ',
+"             \ '            __                  /\_____  \/\ \\ \       ',
+"             \ '    __  __ /\_\    ___ ___      \/___//''/''\ \ \\ \    ',
+"             \ '   /\ \/\ \\/\ \ /'' __` __`\        /'' /''  \ \ \\ \_ ',
+"             \ '   \ \ \_/ |\ \ \/\ \/\ \/\ \      /'' /''__  \ \__ ,__\',
+"             \ '    \ \___/  \ \_\ \_\ \_\ \_\    /\_/ /\_\  \/_/\_\_/  ',
+"             \ '     \/__/    \/_/\/_/\/_/\/_/    \//  \/_/     \/_/    ',
+"             \ ]
