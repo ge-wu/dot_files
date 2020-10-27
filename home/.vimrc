@@ -1,6 +1,6 @@
 noremap <Leader>R  :source $MYVIMRC<CR> :echom 'Vimrc reloaded'<CR>
-noremap <Leader>T  :terminal<CR>
-noremap <Leader><space> :noh <CR>
+noremap <silent> <Leader>T  :terminal<CR>
+noremap <silent> <Leader> <space> :noh <CR>
 
 " Regrex reformat
 noremap ;; :%s:::g<Left><Left><Left>
@@ -9,6 +9,11 @@ noremap ;; :%s:::g<Left><Left><Left>
 nnoremap ,h <C-w>v
 nnoremap ,v <C-w>s
 nnoremap ,, <C-w><C-w>
+
+noremap <Leader>y "*y
+noremap <Leader>p "*p
+noremap <Leader>Y "+y
+noremap <Leader>P "+p
 
 " Tab switch
 noremap     <silent> <C-n>  :tabnew         <CR>
@@ -31,6 +36,7 @@ call plug#begin('~/.vim/plugged')
     Plug 'vwxyutarooo/nerdtree-devicons-syntax'
 
     Plug 'tpope/vim-commentary'
+    Plug 'tpope/vim-surround'
     Plug 'jiangmiao/auto-pairs'
     Plug 'SirVer/ultisnips'
     Plug 'shime/vim-livedown'
@@ -39,8 +45,10 @@ call plug#begin('~/.vim/plugged')
     Plug 'junegunn/fzf.vim'
 
     " /* Appearance */
-	Plug 'morhetz/gruvbox'
     Plug 'sainnhe/gruvbox-material'
+    Plug 'lifepillar/vim-solarized8'
+    Plug 'skielbasa/vim-material-monokai'
+
     Plug 'vim-airline/vim-airline'
     Plug 'mhinz/vim-startify'
 
@@ -62,6 +70,7 @@ set autoread
 set noshowmode
 set noerrorbells
 set history=1000
+set clipboard=unnamed
 
 " /* Helper script */ 
 source ~/.vim/script/add_headers.vim
@@ -85,6 +94,7 @@ syntax on
 filetype detect
 filetype on
 highlight clear SignColumn
+
 
 " /* For Latex */
 let g:tex_flavor = "latex"
@@ -277,12 +287,5 @@ nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 
 inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
-" let g:startify_custom_header = [
-"             \ '                                 ________  __ __        ',
-"             \ '            __                  /\_____  \/\ \\ \       ',
-"             \ '    __  __ /\_\    ___ ___      \/___//''/''\ \ \\ \    ',
-"             \ '   /\ \/\ \\/\ \ /'' __` __`\        /'' /''  \ \ \\ \_ ',
-"             \ '   \ \ \_/ |\ \ \/\ \/\ \/\ \      /'' /''__  \ \__ ,__\',
-"             \ '    \ \___/  \ \_\ \_\ \_\ \_\    /\_/ /\_\  \/_/\_\_/  ',
-"             \ '     \/__/    \/_/\/_/\/_/\/_/    \//  \/_/     \/_/    ',
-"             \ ]
+" /* For fzf */
+nnoremap <silent> <leader>f :Files <CR>
