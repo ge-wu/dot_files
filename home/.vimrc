@@ -1,6 +1,5 @@
 noremap <Leader>R  :source $MYVIMRC<CR> :echom 'Vimrc reloaded'<CR>
 noremap <silent> <Leader>T  :terminal<CR>
-noremap <silent> <Leader> <space> :noh <CR>
 
 " Regrex reformat
 noremap ;; :%s:::g<Left><Left><Left>
@@ -10,10 +9,9 @@ nnoremap ,h <C-w>v
 nnoremap ,v <C-w>s
 nnoremap ,, <C-w><C-w>
 
-noremap <Leader>y "*y
-noremap <Leader>p "*p
-noremap <Leader>Y "+y
-noremap <Leader>P "+p
+" Copy to clipboard
+noremap <Leader>y "+y
+noremap <Leader>p "+p
 
 " Tab switch
 noremap     <silent> <C-n>  :tabnew         <CR>
@@ -27,6 +25,9 @@ vnoremap <space> zf
 " Execution shortcuts
 noremap <Leader>l :LivedownToggle   <CR>
 
+" Terminal-normal mode
+tnoremap <Esc> <C-w><S-n> 
+
 call plug#begin('~/.vim/plugged')
     " /* IDE Oriented */
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -34,6 +35,7 @@ call plug#begin('~/.vim/plugged')
     Plug 'scrooloose/nerdtree'
     Plug 'ryanoasis/vim-devicons'
     Plug 'vwxyutarooo/nerdtree-devicons-syntax'
+    Plug 'sheerun/vim-polyglot'
 
     Plug 'tpope/vim-commentary'
     Plug 'tpope/vim-surround'
@@ -46,8 +48,9 @@ call plug#begin('~/.vim/plugged')
 
     " /* Appearance */
     Plug 'sainnhe/gruvbox-material'
-    Plug 'lifepillar/vim-solarized8'
+    Plug 'overcache/NeoSolarized'
     Plug 'skielbasa/vim-material-monokai'
+    Plug 'vim-airline/vim-airline-themes'
 
     Plug 'vim-airline/vim-airline'
     Plug 'mhinz/vim-startify'
@@ -58,8 +61,8 @@ call plug#end()
 
 " /* Functionality */
 set encoding=UTF-8
-set number
-set expandtab ts=4 sw=4 ai "set tab
+set nu
+set expandtab ts=2 sw=2 ai "set tab
 set nowrap
 set mouse=a
 set wildmode=longest,full
@@ -70,25 +73,27 @@ set autoread
 set noshowmode
 set noerrorbells
 set history=1000
-set clipboard=unnamed
+set noswapfile
+set nocompatible
 
 " /* Helper script */ 
 source ~/.vim/script/add_headers.vim
 source ~/.vim/script/remember_last_position.vim
 
 " /* Appearance */
-set nocursorline
+set cursorline
 set colorcolumn=80
 set numberwidth=1
-set cursorline
-
-if has('termguicolors')
-    set termguicolors
-endif
 set background=dark
+syntax enable 
+set termguicolors
 let g:gruvbox_material_background = 'hard'
 let g:gruvbox_material_enable_italic = 1
 colorscheme gruvbox-material
+
+"
+" hi CursorLineNr term=bold cterm=NONE ctermfg=11 gui=bold guifg=Yellow
+" hi MatchParen cterm=none ctermbg=green ctermfg=blue
 
 syntax on
 filetype detect
@@ -96,14 +101,12 @@ filetype on
 highlight clear SignColumn
 
 
-" /* For Latex */
+" For Latex
 let g:tex_flavor = "latex"
 let g:vimtex_view_general_viewer="okular"
-" au BufRead,BufNewFile *.tex
-" set wm=2 " Auto wrap line
 noremap <Leader>b :VimtexCompile    <CR>
 
-" /* Grammar Check */
+" Grammar Check
 syntax spell toplevel
 syn sync maxlines=2000
 syn sync minlines=500
@@ -111,7 +114,7 @@ setlocal spell spelllang=en_us
 hi clear SpellBad
 hi SpellBad cterm=underline
 
-" /* For Airline
+" For Airline
 let g:airline_section_a = airline#section#create(['mode'])
 let g:airline_section_y = ''
 let g:airline_section_z = 'Ln:%3l/%L:Col:%2v'
@@ -121,7 +124,7 @@ let g:airline_powerline_fonts = 1
 let g:airline_left_sep = ''
 let g:airline_right_sep = ''
 
-" /* For Airline Tab
+" For Airline Tab
 let g:airline#extensions#tabline#enabled=1
 let g:airline#extensions#tabline#show_close_button = 0
 let g:airline#extensions#tabline#tabs_label = ''
@@ -289,3 +292,4 @@ inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR
 
 " /* For fzf */
 nnoremap <silent> <leader>f :Files <CR>
+
