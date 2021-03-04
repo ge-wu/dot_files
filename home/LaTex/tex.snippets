@@ -1,0 +1,116 @@
+# Quick insert begin
+snippet beg "begin{} / end{}" bA
+\begin{$1}
+	$0
+\end{$1}
+endsnippet
+
+# 'In-line' math equation
+snippet mk "Math" wA
+$${1}$
+endsnippet
+
+snippet \{ "bracket" iA
+\\{$1\\}
+endsnippet
+
+snippet __ "subscript" iA
+_{$1}$0
+endsnippet
+
+snippet ^^ "super script" iA
+^{$1}
+endsnippet
+
+# 'Display' math equation
+snippet dm "Math" iA
+\[
+$1
+.\] $0
+endsnippet
+
+# Auto subscript
+snippet '([A-Za-z])(\d)' "auto subscript" wrA
+`!p snip.rv = match.group(1)`_`!p snip.rv = match.group(2)`
+endsnippet
+
+snippet '([A-Za-z])_(\d\d)' "auto subscript" wrA
+`!p snip.rv = match.group(1)`_{`!p snip.rv = match.group(2)`}
+endsnippet
+
+snippet // "Fraction" iA
+\\frac{$1}{$2}$0
+endsnippet
+
+snippet pf "quick proof template" bA
+\textit{Proof: }
+
+$0
+
+\hfill $\square$
+endsnippet
+
+snippet FIT "italic font" wA
+\textit{$1}
+endsnippet
+
+snippet FTT "type writer font" wA
+\texttt{$1}
+endsnippet
+
+snippet FBF "bold font" wA
+\textbf{$1}
+endsnippet
+
+snippet MBB "math blackboard bold font" wA
+\mathbb{$1}
+endsnippet
+
+snippet enum "Enumerate" bA
+\begin{enumerate}
+	\item $0
+\end{enumerate}
+endsnippet
+
+snippet temp "quick template" wA
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[letterpaper]{geometry}
+\usepackage{times}
+\geometry{top=1.0in, bottom=1.0in, left=1.0in, right=1.0in}
+\usepackage{amsfonts, amsmath, amssymb, mathtools}
+
+\usepackage{listings}
+\usepackage{xcolor}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,
+    breaklines=false,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=10pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=4
+}
+
+\lstset{style=mystyle}
+
+\title{}
+\author{}
+\date{$0}
+
+endsnippet
