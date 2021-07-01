@@ -25,9 +25,6 @@ vnoremap <space> zf
 " Execution shortcuts
 noremap <Leader>l :LivedownToggle   <CR>
 
-" Terminal-normal mode
-tnoremap <Esc> <C-w><S-n> 
-
 call plug#begin('~/.vim/plugged')
     " /* IDE Oriented */
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -42,9 +39,6 @@ call plug#begin('~/.vim/plugged')
     Plug 'jiangmiao/auto-pairs'
     Plug 'SirVer/ultisnips'
     Plug 'shime/vim-livedown'
-
-    Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-    Plug 'junegunn/fzf.vim'
 
     " /* Appearance */
     Plug 'sainnhe/gruvbox-material'
@@ -63,7 +57,7 @@ call plug#end()
 set encoding=UTF-8
 set nu
 set expandtab ts=2 sw=2 ai "set tab
-set nowrap
+set wrap
 set mouse=a
 set wildmode=longest,full
 set wildmenu
@@ -105,6 +99,15 @@ highlight clear SignColumn
 let g:tex_flavor = "latex"
 let g:vimtex_view_general_viewer="okular"
 noremap <Leader>b :VimtexCompile    <CR>
+let g:vimtex_compiler_latexmk = {
+        \ 'executable' : 'latexmk',
+        \ 'options' : [
+        \   '-xelatex',
+        \   '-file-line-error',
+        \   '-synctex=1',
+        \   '-interaction=nonstopmode',
+        \ ],
+        \}
 
 " Grammar Check
 syntax spell toplevel
@@ -157,6 +160,7 @@ let g:UltiSnipsExpandTrigger="<c-e>"
 let g:UltiSnipsJumpForwardTrigger="<c-f>"
 let g:UltiSnipsJumpBackwardTrigger="<c-b>"
 let g:UltiSnipsSnippetDirectories = ['~/.vim/UltiSnips', 'UltiSnips']
+
 
 " /*For COC */
 " if hidden is not set, TextEdit might fail.
