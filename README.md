@@ -19,6 +19,7 @@ This repository contains the dofiles, tools and packages I need for my Linux.
 | Screen-shot Tool      | [deepin-screenshot](https://github.com/linuxdeepin/deepin-screenshot)             |
 | Terminal Emulator     | [Terminator](https://wiki.archlinux.org/index.php/Terminator) []()        |
 | Color scheme          | [gruvbox-material](https://github.com/sainnhe/gruvbox-material) []()        |
+| Bootloader         | [rEFInd](https://www.rodsbooks.com/refind/) []()        |
 
 # Extra Tools
 
